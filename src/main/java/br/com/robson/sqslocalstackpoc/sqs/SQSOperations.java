@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.model.CreateQueueRequest;
+import com.amazonaws.services.sqs.model.DeleteMessageRequest;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageRequest;
 import com.amazonaws.services.sqs.model.SendMessageRequest;
@@ -34,4 +35,11 @@ public class SQSOperations {
         List<Message> messages = sqsClient.receiveMessage(receiveMessageRequest).getMessages();
         return messages;
     }
+    
+    public void deleteMessage(String queueUrl, Message msg) {
+        
+        sqsClient.deleteMessage(queueUrl, msg.getReceiptHandle());
+    }
+    
+    
 }
