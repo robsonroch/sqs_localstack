@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: API de Produtos
+  description: API para criar, ler, atualizar e deletar produtos
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+  /produtos:
+    get:
+      summary: Retorna todos os produtos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProdutoResponse'
+    post:
+      summary: Cria um novo produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoRequest'
+      responses:
+        '200':
+          description: OK
+#          content:
+#            application/json:
+#              schema:
+#               $ref: '#/components/schemas/ProdutoResponse'
+  '/produtos/{id}':
+    get:
+      summary: Retorna um produto pelo ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do produto a ser retornado
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProdutoResponse'
+    put:
+      summary: Atualiza um produto existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do produto a ser atualizado
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProdutoResponse'
+    delete:
+      summary: Deleta um produto existente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do produto a ser deletado
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          
+  '/produtos/like/{partname}':
+    get:
+      summary: Retorna um produto semelhantes pelo nome
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do produto a ser retornado
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProdutoResponse'                
+
+components:
+  schemas:
+    ProdutoRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+        preco:
+          type: number
+        tempoDeExpiracao:
+          type: integer
+          format: int32
+      required:
+        - nome
+        - descricao
+        - preco
+    ProdutoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        nome:
+          type: string
+        descricao:
+          type: string
+        preco:
+          type: number
+        tempoDeExpiracao:
+          type: integer
+          format: int32
+      required:
+        - nome
+        - descricao
+        - preco        
