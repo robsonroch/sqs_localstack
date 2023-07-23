@@ -49,7 +49,10 @@ public class ProdutosApiImpl implements ProdutosApi{
             	listResponse.add(response);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                System.out.println("deu ruim ao receber mensagem");
             }
+            
+            sqsOperations.deleteMessage(queueUrl, msg);
     	}
     	
         return ResponseEntity.ok(listResponse);
@@ -70,6 +73,7 @@ public class ProdutosApiImpl implements ProdutosApi{
 
         } catch (JsonProcessingException e) {
             System.out.println(e.getMessage());
+            System.out.println("deu ruim ao enviar mensagem");
         }
             	
         return ResponseEntity.noContent().build();
